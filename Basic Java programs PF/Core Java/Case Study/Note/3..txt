@@ -1,0 +1,103 @@
+import java.util.Scanner;
+
+public class Program {
+
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		
+		
+		System.out.println("1.Validate Name\r\n" + 
+				"2.Validate Content\r\n" + 
+				"Enter your choice:");
+		int choice=Integer.parseInt(input.nextLine());
+		while(choice>0&&choice<3) {
+			if(choice==1) {
+				System.out.println("Enter the name to be validated:");
+				String name=(input.nextLine());
+				System.out.println(ValidateName(name)?"Name is valid":"Name is invalid");
+				}
+			else if(choice==2) {
+				System.out.println("Enter the content to be validated:");
+				String content=(input.nextLine());
+				System.out.println(ValidateContent(content)?"Content is valid":"Content is invalid");
+				break;
+			}
+			}
+
+
+
+	}
+	static boolean ValidateName(String name) {
+		boolean isvalid=true;
+		if(!Character.isAlphabetic(name.charAt(0))) {
+			isvalid=false;
+		}
+		for (int i = 0; i < name.length(); i++) {
+			if(!Character.isLetterOrDigit(name.charAt(i))){
+				isvalid=false;
+				break;}
+		}
+		return isvalid;
+		
+	}
+	static boolean ValidateContent(String content)
+	{boolean isvalid=true;
+int count=0 ;
+	for (int i = 0; i < content.length(); i++) {
+		if(!((Character.isAlphabetic(content.charAt(i)))||content.charAt(i)==','||
+				content.charAt(i)==' '||content.charAt(i)=='.'||content.charAt(i)=='_')){
+			isvalid=false;
+			break;}
+		else {
+			if(content.charAt(i)==' ') count++;
+		}
+		if((content.length()-count)>40)
+			isvalid=false;
+	}
+	return isvalid;
+	}
+
+}
+
+
+Output 1:
+
+1.Validate Name
+2.Validate Content
+Enter your choice:
+1
+Enter the name to be validated:
+Jane1
+Name is valid
+
+
+
+Output 2:
+
+1.Validate Name
+2.Validate Content
+Enter your choice:
+1
+Enter the name to be validated:
+Jane_1
+Name is invalid
+
+
+Output 3:
+
+1.Validate Name
+2.Validate Content
+Enter your choice:
+2
+Enter the content to be validated:
+Buy the groceries,necessities.
+Content is valid
+
+Output 4:
+1.Validate Name
+2.Validate Content
+Enter your choice:
+2
+Enter the content to be validated:
+Buy Groceries in "The mall".
+Content1 is invalid

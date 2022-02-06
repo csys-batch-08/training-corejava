@@ -1,0 +1,142 @@
+//REQ 6
+
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class Program {
+
+	public static void main(String[] args) throws NumberFormatException, ParseException {
+		// TODO Auto-generated method stub
+		ArrayList<Note> list=new ArrayList<Note>();
+		List<Note> outlist=new ArrayList<Note>();
+		Scanner input = new Scanner(System.in);
+		System.out.println("Enter the No of the book:");
+		int no=Integer.parseInt(input.nextLine());
+		for (int i = 0; i < no; i++) {
+			String detail=input.nextLine();
+			Note note=new Note().CreateNote(detail);
+			list.add(note);
+		}
+		
+Map<Date,Integer> outmap=new HashMap<Date, Integer>();
+SimpleDateFormat df=new SimpleDateFormat("dd-MM-yyyy");
+outmap=Note.CalculateDateCount(list);
+System.out.println("Date\tCount");
+for (Entry<Date,Integer> obj : outmap.entrySet()) {
+	
+	System.out.println(df.format(obj.getKey())+"\t\t"+obj.getValue());
+}
+					
+
+	}
+	
+}
+
+class Note  
+{
+	private String _name;
+	private String _content;
+	private Double _size;
+	private Double _priorityLevel;
+	private Date _createdDate;
+	public Note(String _name, String _content, Double _size,  Double _priorityLevel,Date _createdDate) {
+		super();
+		this._name = _name;
+		this._content = _content;
+		this._size = _size;
+		this._priorityLevel = _priorityLevel;
+		this._createdDate = _createdDate;
+	}
+	
+	Note(){}
+	
+
+	public String get_name() {
+		return _name;
+	}
+
+	public void set_name(String _name) {
+		this._name = _name;
+	}
+
+	public String get_content() {
+		return _content;
+	}
+
+	public void set_content(String _content) {
+		this._content = _content;
+	}
+
+	public Double get_size() {
+		return _size;
+	}
+
+	public void set_size(Double _size) {
+		this._size = _size;
+	}
+
+	public Double get_priorityLevel() {
+		return _priorityLevel;
+	}
+
+	public void set_priorityLevel(Double _priorityLevel) {
+		this._priorityLevel = _priorityLevel;
+	}
+
+	public Date get_createdDate() {
+		return _createdDate;
+	}
+
+	public void set_createdDate(Date _createdDate) {
+		this._createdDate = _createdDate;
+	}
+
+	@Override
+	public String toString() {
+
+		SimpleDateFormat df=new SimpleDateFormat("dd-MM-yyyy");
+		
+		DecimalFormat ddf=new DecimalFormat("#.#");
+		return _name+"\t"+_content+"\t"+ddf.format(_size)+"\t"+ddf.format(_priorityLevel)+"\t"+df.format(_createdDate)+"\t";
+	}
+	
+	public static Note CreateNote(String detail) throws NumberFormatException, ParseException {
+		String arr[]=detail.split(",");
+		
+		SimpleDateFormat df=new SimpleDateFormat("dd-MM-yyyy");
+		
+		Note note=new Note(arr[0],arr[1],Double.parseDouble(arr[2]),
+				Double.parseDouble(arr[3]),df.parse(arr[4]));
+		return note;		
+	}
+	
+	static Map<Date,Integer> CalculateDateCount(List<Note> list){
+		Map<Date,Integer>count=new TreeMap<Date,Integer>();
+		int TypeCount=1;
+		for (Note note : list) {
+			if(!count.containsKey(note._createdDate))
+			{
+				count.put(note._createdDate, TypeCount);
+			}
+			else
+			{
+				count.put(note._createdDate, count.get(note._createdDate)+1);
+			}
+				
+		}
+		return count;
+		
+	}
+	}
+
